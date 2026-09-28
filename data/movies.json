@@ -1,0 +1,18 @@
+[
+  {
+    "id": "1790586092799",
+    "title": "Test",
+    "year": 2014,
+    "rating": 5,
+    "watchedOn": "2026-09-20",
+    "notes": "Cried at the docking scene."
+  },
+  {
+    "id": "1",
+    "title": "The Shawshank Redemption",
+    "year": 1994,
+    "rating": 3,
+    "watchedOn": "2022-01-01",
+    "notes": "Great movie"
+  }
+]

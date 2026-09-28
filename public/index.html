@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>บันทึกหนัง</title>
+    <link rel = "preconnect" href = "https://fonts.googleapis.com">
+    <link rel = "preconnect" href = "https://fonts.gstatic.com" crossorigin>
+    <link href = "https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700&display=swap" rel = "stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main>
+        <h1>บันทึกหนังที่ดู</h1>
+        <p id="stats">กำลังโหลด...</p>
+
+        <form id="movie-form">
+            <label class="wide">ชื่อเรื่อง
+                <input name="title" required placeholder="เช่น Mathrix">
+            </label>
+
+            <label>ปีที่ออกฉาย
+                <input type="number" name="year" min="1888" max="2100" placeholder="2019">
+            </label>
+
+            <label>วันที่ดู
+                <input type="date" name="watchedOn">
+            </label>
+
+            <label>คะแนน
+                <select name="rating">
+                    <option value="5">★★★★★</option>
+                    <option value="4">★★★★</option>
+                    <option value="3" selected>★★★</option>
+                    <option value="2">★★</option>
+                    <option value="1">★</option>
+                </select>
+            </label>
+
+            <label class ="wide">
+                หมายเหตุ
+                <textarea name="notes" rows="2" placeholder="หมายเหตุ"></textarea>
+            </label>
+
+            <button type="submit">บันทึก</button>
+            <button type="button" id="cancel-edit" hidden>ยกเลิก</button>
+            <p id="error" role="alert"></p>
+        </form>
+
+        <input id="search" type="search" placeholder="ค้นหาหนัง">
+
+        <ul id="movie-list"></ul>
+    </main>
+    <script src="app.js"></script>
+</body>
+</html>
