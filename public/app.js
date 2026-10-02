@@ -9,6 +9,10 @@ const cancelBtn = document.getElementById("cancel-edit");
 let movies = [];
 let editingId = null;
 
+function today(){
+    return new Date().toLocaleDateString("th-TH", {year: "numeric", month: "2-digit", day: "2-digit"});
+}
+
 async function loadMovies() {
     try{
         const res = await fetch("/api/movies");
