@@ -1,4 +1,3 @@
-const { error } = require('console');
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
@@ -12,11 +11,16 @@ app.use(express.static(path.join(__dirname,'..','public')));
 
 
 function readMovies(){
-    try{
-        return JSON.parse(fs.readFileSync(DATA_FILE, "utf8"));
-    }catch{
-        return [];
+    if (!fs.existsSync(DATA_FILE)) {
+        fs.mkdirSync(path.dirname(DATA_FILE), { recursive: true });
+        fs.writeFileSync(DATA_FILE, "[]");
     }
+
+    const movies = JSON.parse(fs.readFileSync(DATA_FILE, "utf8"));
+    if (!Array.isArray(movies)) {
+        throw new Error("Movie data must be an array");
+    }
+    return movies;
 }
 
 function writeMovies(movies){
@@ -28,18 +32,18 @@ app.get("/api/movies", (req, res) => {
 });
 
 app.get("/api/movies/:id", (req, res) => {
-    const movie = readMovies().find(m => m.id === parseInt(req.params.id));
+    const movie = readMovies().find(m => String(m.id) === req.params.id);
     if(!movie){
-        res.status(404).send("Movie not found");
+        return res.status(404).json({error: "Movie not found"});
     }else{
         res.json(movie);
     }
 });
 
 app.post("/api/movies", (req, res) => {
-    const {title, year, rating, watchedOn, notes} = req.body;
+    const {title, year, rating, watchedOn, notes} = req.body ?? {};
 
-    if (!title || !title.trim()){
+    if (typeof title !== "string" || !title.trim()){
         return res.status(400).json({error: "Title is required"});
         
     }
@@ -72,21 +76,25 @@ app.post("/api/movies", (req, res) => {
 
 app.patch("/api/movies/:id", (req, res) => {
     const movies = readMovies();
-    const movie = movies.find((m) => m.id === req.params.id);
+    const movie = movies.find((m) => String(m.id) === req.params.id);
 
     if(!movie){
-        res.status(404).send("Movie not found");
+        return res.status(404).json({error: "Movie not found"});
     }
 
-    const { rating} = req.body;
-    if(rating !== undefined && !Number.isInteger(rating) || rating < 0 || rating > 5){
+    const body = req.body ?? {};
+    const { title, rating } = body;
+    if (title !== undefined && (typeof title !== "string" || !title.trim())) {
+        return res.status(400).json({error: "Title is required"});
+    }
+    if(rating !== undefined && (!Number.isInteger(rating) || rating < 0 || rating > 5)){
         return res.status(400).json({error: "Rating must be a number between 0 and 5"});
     }
 
     const allowed = ["title", "year", "rating", "watchedOn", "notes"];
     for (const key of allowed){
-        if(req.body[key] !== undefined){
-            movie[key] = req.body[key];
+        if(body[key] !== undefined){
+            movie[key] = key === "title" ? body[key].trim() : body[key];
         }
     }
 
@@ -98,7 +106,7 @@ app.patch("/api/movies/:id", (req, res) => {
 
 app.delete("/api/movies/:id", (req, res) => {
     const movies = readMovies();
-    const remaining = movies.filter((m) => m.id !== req.params.id);
+    const remaining = movies.filter((m) => String(m.id) !== req.params.id);
 
     if(movies.length === remaining.length){
         return res.status(404).json({error: "Movie not found"});
@@ -108,6 +116,10 @@ app.delete("/api/movies/:id", (req, res) => {
     res.json({ok: true});
 });
 
+app.use((err, req, res, next) => {
+    console.error(err);
+    res.status(500).json({error: "Unable to process request"});
+});
 
 
 
