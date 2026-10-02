@@ -71,18 +71,8 @@ GET /api/movies
 
 ตัวอย่างผลลัพธ์ `200 OK`:
 
-```json
-[
-  {
-    "id": "1",
-    "title": "The Shawshank Redemption",
-    "year": 1994,
-    "rating": 5,
-    "watchedOn": "2026-10-02",
-    "notes": "หนังดีมาก"
-  }
-]
-```
+<img width="1916" height="1016" alt="image" src="https://github.com/user-attachments/assets/81ffb463-f70b-44c5-b1a0-f1f261db67da" />
+
 
 ### 2. ดูหนังตาม ID
 
@@ -91,18 +81,12 @@ GET /api/movies/:id
 ```
 
 ตัวอย่าง:
+<img width="1902" height="1021" alt="image" src="https://github.com/user-attachments/assets/c2a5eabe-f227-44bb-8b63-292bd3bc5c0c" />
 
-```bash
-curl http://localhost:3000/api/movies/1
-```
 
 ถ้าไม่พบหนัง จะได้ `404 Not Found`:
 
-```json
-{
-  "error": "Movie not found"
-}
-```
+
 
 ### 3. เพิ่มหนัง
 
@@ -113,15 +97,8 @@ Content-Type: application/json
 
 ข้อมูลที่ส่ง:
 
-```json
-{
-  "title": "Inception",
-  "year": 2010,
-  "rating": 5,
-  "watchedOn": "2026-10-02",
-  "notes": "ดูซ้ำได้หลายรอบ"
-}
-```
+<img width="1908" height="1015" alt="image" src="https://github.com/user-attachments/assets/a72920e8-75c0-43da-9e24-6247e0299276" />
+
 
 ฟิลด์ `title` จำเป็นต้องมี และ `rating` ต้องเป็นจำนวนเต็มตั้งแต่ 0 ถึง 5
 
@@ -129,7 +106,8 @@ Content-Type: application/json
 
 ข้อผิดพลาดที่อาจเกิดขึ้น:
 
-- `400 Bad Request` — ไม่ได้ส่งชื่อหนัง หรือคะแนนไม่อยู่ระหว่าง 0 ถึง 5
+<img width="1907" height="1025" alt="image" src="https://github.com/user-attachments/assets/8b97b69a-5de1-40bd-b578-b43648e29f3f" />
+
 
 ### 4. แก้ไขหนัง
 
@@ -140,11 +118,8 @@ Content-Type: application/json
 
 สามารถส่งเฉพาะฟิลด์ที่ต้องการแก้ไขได้ เช่น:
 
-```bash
-curl -X PATCH http://localhost:3000/api/movies/1 \
-  -H "Content-Type: application/json" \
-  -d "{\"rating\":4,\"notes\":\"แก้ไขหมายเหตุ\"}"
-```
+<img width="1910" height="1013" alt="image" src="https://github.com/user-attachments/assets/c5ea3351-86f1-4c67-afc4-a48280cdd912" />
+
 
 ฟิลด์ที่แก้ไขได้คือ `title`, `year`, `rating`, `watchedOn` และ `notes`
 
