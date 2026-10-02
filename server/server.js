@@ -113,7 +113,7 @@ app.delete("/api/movies/:id", (req, res) => {
     }
 
     writeMovies(remaining);
-    res.json({ok: true});
+    return res.status(204).send();
 });
 
 app.use((err, req, res, next) => {

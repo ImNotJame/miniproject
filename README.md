@@ -167,13 +167,7 @@ DELETE /api/movies/:id
 curl -X DELETE http://localhost:3000/api/movies/1
 ```
 
-ผลลัพธ์สำเร็จคือ `200 OK`:
-
-```json
-{
-  "ok": true
-}
-```
+ผลลัพธ์สำเร็จคือ `204 No Content` และไม่มี response body
 
 ถ้าไม่พบหนัง จะได้ `404 Not Found`
 
