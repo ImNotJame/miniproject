@@ -12,6 +12,9 @@ let editingId = null;
 async function loadMovies() {
     try{
         const res = await fetch("/api/movies");
+        if(!res.ok){
+            throw new Error("ไม่สามารถโหลดข้อมูลได้");
+        }
         movies = await res.json();
         render();
     }catch(err){
@@ -63,8 +66,9 @@ function startEdit(m){
 
 function stopEdit(){
     editingId = null;
+    form.reset();
     submitBtn.textContent = "เพิ่มหนัง";
-    form.watchedOn.valueAsDate = new Date();
+    form.watchedOn.value = today();
     cancelBtn.hidden = true;
     errorBox.textContent = "";
 }
@@ -90,7 +94,7 @@ function render(){
     if(visible.length === 0){
         const empty = document.createElement("li");
         empty.className = "empty";
-        empty.textContent = movies.length === 0 ? "ไม่พบข้อมูล" : "เพิ่มหนังได้เลย";
+        empty.textContent = movies.length === 0 ? "เพิ่มหนังได้เลย" : "ไม่พบข้อมูล";
         list.append(empty);
         return;
     }
